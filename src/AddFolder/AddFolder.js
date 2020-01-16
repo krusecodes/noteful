@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import ValiationError from './ValidationError';
 import ApiContext from '../ApiContext';
+import PropTypes from 'prop-types';
 
 export default class AddFolder extends Component {
   constructor(props) {
@@ -76,9 +78,14 @@ export default class AddFolder extends Component {
         <label>Add Folder: 
           <input onChange={ (e) => this.updateFolder(e.target.value) } type="text" name="addFolder" id="addFolder"></input>
         </label>
+        <ValiationError hasError={!this.state.folderValid} message={this.state.validMessage}/>
         <button type="submit" disabled={!this.state.folderValid}>Submit</button>
       </form>
     )
   }
 
+}
+
+AddFolder.propTypes = {
+  addFolder: PropTypes.func
 }

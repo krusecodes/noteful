@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 import ApiContext from '../ApiContext';
+
 
 export default class AddNote extends Component {
   constructor(props) {
@@ -135,4 +137,12 @@ export default class AddNote extends Component {
       </div>
     )
   }
+}
+
+AddNote.propTypes = {
+  folders: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
+  addNote: PropTypes.func
 }

@@ -1,10 +1,10 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import ApiContext from '../ApiContext'
 import config from '../config'
 import './Note.css'
+import PropTypes from 'prop-types'
 
 export default class Note extends React.Component {
   static defaultProps ={
@@ -66,4 +66,9 @@ export default class Note extends React.Component {
       </div>
     )
   }
+}
+
+Note.propType = {
+  modified: PropTypes.string,
+  name:PropTypes.string,
 }
