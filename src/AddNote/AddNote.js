@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
 import ApiContext from '../ApiContext'
 import CircleButton from '../CircleButton/CircleButton'
+import ValidationError from '../ValidationError'
 import moment from 'moment';
 
 
@@ -96,6 +97,7 @@ export default class AddNote extends Component {
               Name:
             </label>
             <input type='text' id='note-name-input' name='note-name' onChange={e => this.updateName(e.target.value)} />
+            <ValidationError message={this.validateName()} />
             
           </div>
           <div className='field'>
@@ -103,7 +105,7 @@ export default class AddNote extends Component {
               Content:
             </label>
             <textarea id='note-content-input' name='note-content' onChange={e => this.updateContent(e.target.value)} />
-            
+            <ValidationError message={this.validateName()} />
           </div>
           <div className='field'>
             <label htmlFor='note-folder-select'>

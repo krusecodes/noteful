@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
+import ValidationError from '../ValidationError'
 import ApiContext from '../ApiContext'
 
 export default class AddFolder extends Component {
@@ -67,6 +68,7 @@ export default class AddFolder extends Component {
               Name
             </label>
             <input type='text' id='folder-name-input' name='folder-name' onChange={e => this.updateName(e.target.value)} />
+            <ValidationError message={this.validateName()} />
           </div>
           <div className='buttons'>
             <button type='submit'
