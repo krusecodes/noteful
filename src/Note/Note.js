@@ -1,10 +1,10 @@
-
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ApiContext from '../ApiContext'
-import config from '../config'
 import './Note.css'
-import PropTypes from 'prop-types'
+import { format } from 'date-fns'
+import propTypes from 'prop-types';
+
 
 export default class Note extends React.Component {
   static defaultProps ={
@@ -16,7 +16,7 @@ export default class Note extends React.Component {
     e.preventDefault()
     const noteId = this.props.id
 
-    fetch(`${config.API_ENDPOINT}/notes/${noteId}`, {
+    fetch(`http://localhost:9090/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json'
@@ -29,7 +29,6 @@ export default class Note extends React.Component {
       })
       .then(() => {
         this.context.deleteNote(noteId)
-        // allow parent to perform extra behaviour
         this.props.onDeleteNote(noteId)
       })
       .catch(error => {
@@ -39,36 +38,36 @@ export default class Note extends React.Component {
 
   render() {
     const { name, id, modified } = this.props
+    // var format = require('date-fns/is_valid')
     return (
       <div className='Note'>
-        <h2 className='Note__title'>
+        {/* <h2 className='Note__title'> */}
           <Link to={`/note/${id}`}>
-            {name}
+            {/* {name} <br /> */}
+            <button className="Note__title">{name}</button>
           </Link>
-        </h2>
+        {/* </h2> */}
+        <div className="Modfied__dates">
+          <span className="Date">
+            {format(new Date(modified), 'YYY-MM-do')}
+          </span>
+        </div>
         <button
           className='Note__delete'
           type='button'
           onClick={this.handleClickDelete}
         >
-          {' '}
           remove
         </button>
-        <div className='Note__dates'>
-          <div className='Note__dates-modified'>
-            Modified
-            {' '}
-            <span className='Date'>
-              
-            </span>
-          </div>
-        </div>
+
       </div>
     )
   }
+
 }
 
-Note.propType = {
-  modified: PropTypes.string,
-  name:PropTypes.string,
+Note.propTypes = {
+  id: propTypes.string.isRequired,
+  modified: propTypes.string,
+  name: propTypes.string.isRequired
 }
