@@ -44,9 +44,23 @@ class App extends Component {
         });
     };
 
-    handleAddFolder = (folder) => {
-        this.setState({folders: [...this.state.folders, folder]})
-      }
+    handleAddFolder = folder => {
+        this.setState({
+            folders: [
+                ...this.state.folders,
+                folder
+            ]
+        })
+    }
+    
+    handleAddNote = note => {
+        this.setState({
+            notes: [
+                ...this.state.notes,
+                note
+            ]
+        })
+    }
 
     renderNavRoutes() {
         return (
@@ -64,11 +78,11 @@ class App extends Component {
                     component={NotePageNav} />
                 <Route 
                     path="/add-folder"  
-                    component={AddFolder}
+                    component={NotePageNav}
                 />
                 <Route 
                 path="/add-note" 
-                component={AddNote} />
+                component={NotePageNav} />
             </>
         );
     }
@@ -96,11 +110,14 @@ class App extends Component {
     }
 
     render() {
+        console.log(this.handleAddNote)
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
             deleteNote: this.handleDeleteNote,
-            addFolder: this.handleAddFolder
+            addFolder: this.handleAddFolder,
+            addNote: this.handAddNote
+
         };
         return (
             <ApiContext.Provider value={value}>
