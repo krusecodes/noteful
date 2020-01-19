@@ -44,7 +44,7 @@ class App extends Component {
         });
     };
 
-    addFolder = (folder) => {
+    handleAddFolder = (folder) => {
         this.setState({folders: [...this.state.folders, folder]})
       }
 
@@ -75,25 +75,32 @@ class App extends Component {
 
     renderMainRoutes() {
         return (
-            <>
-                {['/', '/folder/:folderId'].map(path => (
+            <React.Fragment>
+                {['/', '/folder/:folderId'].map(path => 
+                    
                     <Route
                         exact
                         key={path}
                         path={path}
                         component={NoteListMain}
                     />
-                ))}
-                <Route path="/note/:noteId" component={NotePageMain} />
-            </>
+                    
+                )}
+                <Route path='/note/:noteId' component={NotePageMain} />
+                <Route path="/add-folder" component={AddFolder} />
+                <Route path="/add-note" component={AddNote} />
+            </React.Fragment>
+            
         );
+        
     }
 
     render() {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            addFolder: this.handleAddFolder
         };
         return (
             <ApiContext.Provider value={value}>
