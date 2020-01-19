@@ -1,7 +1,6 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import NotefulForm from '../NotefulForm/NotefulForm'
-import PropTypes from 'prop-types';
-import ApiContext from '../ApiContext';
+import ApiContext from '../ApiContext'
 import CircleButton from '../CircleButton/CircleButton'
 import moment from 'moment';
 
@@ -53,30 +52,36 @@ export default class AddNote extends Component {
     }
   }
 
-  handleSubmit= (event) => {
-    event.preventDefault();
+
+  handleSubmit = e => {
+    e.preventDefault()
 
     const newNote = {
-      name: event.target['note-noame'].value,
-      content: event.target['note-content'].value,
-      folderId: event.target['note-folder-id'].value,
+      name: e.target['note-name'].value,
+      content: e.target['note-content'].value,
+      folderId: e.target['note-folder-id'].value,
       modified: moment(),
     }
-    fetch('http://localhost:9090/notes', {
+    fetch(`http://localhost:9090/notes`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
       },
       body: JSON.stringify(newNote),
     })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error('Couldn\'t add note. Sorry!')
-      }
-      return res.json();
-    })
-    .then(res => AddNote(res))
-    .catch(err => console.log(err))
+      .then(response => {
+        if (!response.ok)
+          return response.json().then(e => Promise.reject(e))
+        return response.json()
+      })
+      .then(note => {
+        console.log(note)
+        this.context.addNote(note)
+        this.props.history.push(`/folder/${note.folderId}`)
+      })
+      .catch(error => {
+        console.error({ error })
+      })
   }
 
   render() {
@@ -91,12 +96,14 @@ export default class AddNote extends Component {
               Name:
             </label>
             <input type='text' id='note-name-input' name='note-name' onChange={e => this.updateName(e.target.value)} />
+            
           </div>
           <div className='field'>
             <label htmlFor='note-content-input'>
               Content:
             </label>
             <textarea id='note-content-input' name='note-content' onChange={e => this.updateContent(e.target.value)} />
+            
           </div>
           <div className='field'>
             <label htmlFor='note-folder-select'>
@@ -135,11 +142,3 @@ export default class AddNote extends Component {
     )
   }
 }
-
-// AddNote.propTypes = {
-//   folders: PropTypes.arrayOf(PropTypes.shape({
-//     id: PropTypes.string.isRequired,
-//     name: PropTypes.string.isRequired,
-//   })),
-//   addNote: PropTypes.func
-// }

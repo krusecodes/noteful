@@ -62,28 +62,21 @@ class App extends Component {
         })
     }
 
-    renderNavRoutes() {
+        renderNavRoutes() {
         return (
-            <>
-                {['/', '/folder/:folderId'].map(path => (
+            <React.Fragment>
+                {['/', '/folder/:folderId'].map(path => 
                     <Route
                         exact
                         key={path}
                         path={path}
                         component={NoteListNav}
                     />
-                ))}
-                <Route 
-                    path="/note/:noteId" 
-                    component={NotePageNav} />
-                <Route 
-                    path="/add-folder"  
-                    component={NotePageNav}
-                />
-                <Route 
-                path="/add-note" 
-                component={NotePageNav} />
-            </>
+                )}
+                <Route path='/note/:noteId' component={NotePageNav} />
+                <Route path='/add-folder'component={NotePageNav} />
+                <Route path='/add-note'component={NotePageNav} />
+            </React.Fragment>
         );
     }
 
@@ -110,13 +103,13 @@ class App extends Component {
     }
 
     render() {
-        console.log(this.handleAddNote)
+        // console.log(this.handleAddNote)
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
             deleteNote: this.handleDeleteNote,
             addFolder: this.handleAddFolder,
-            addNote: this.handAddNote
+            addNote: this.handleAddNote
 
         };
         return (
